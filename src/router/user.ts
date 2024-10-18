@@ -17,7 +17,7 @@ router.get('/list',async (context) => {
 })
 
 router.post('/add', async (ctx) => {
-        const { account, password, editable = false, releasable = false } = ctx.request.body
+        const { account, password, editable = false, releasable = false } = (ctx.request.body as any)
         const user = new UserModel({
                 account,
                 password,
@@ -29,7 +29,7 @@ router.post('/add', async (ctx) => {
 })
 
 router.post('/update', async (ctx) => {
-        const { account, editable = false, releasable = false } = ctx.request.body
+        const { account, editable = false, releasable = false } = (ctx.request.body as any)
         if (!account) {
                 throw new ParamException('account是必填字段')   
         }
@@ -42,7 +42,7 @@ router.post('/update', async (ctx) => {
 })
 
 router.post('/del', async (ctx) => {
-        const { account } = ctx.request.body
+        const { account } = (ctx.request.body as any)
         await UserModel.findOneAndDelete({account})
         successHandler(ctx)
 })

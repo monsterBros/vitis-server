@@ -12,7 +12,7 @@ const router = new Router()
 router.post('/upload', 
     checkComponentParam,
     async (context, next) => {
-        const { packageName } = context.request.body
+        const { packageName } = ((context.request.body as any) as any)
         if (!validate(packageName)) {
             throw new ParamException(`${packageName}不是合法 npm 包名`)
         }
@@ -20,7 +20,7 @@ router.post('/upload',
         await next()
     },
     async (context) => {
-        const { packageName, version, description, title, iconUrl, componentName } = context.request.body
+        const { packageName, version, description, title, iconUrl, componentName } = ((context.request.body as any) as any)
         const result = await ComponentModel.findOne({packageName}).exec()
         if (result) {
             if (semver.lte(version, result.latest)) {
